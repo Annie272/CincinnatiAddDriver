@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -208,6 +207,14 @@
                      />
                </div>
             </div>
+
+            <!-- HIDDEN Age field - maps to Salesforce -->
+            <input
+               type="hidden"
+               id="age"
+               name="Age__c"
+               value=""
+               />
 
             <!-- Row 4: DL Country, DL State -->
             <div class="grid grid-cols-2 gap-4 mb-4">
@@ -445,57 +452,57 @@
                      autocomplete="off"
                      >
                     <option value="">--Select--</option>
-                <option value="AK">AK</option>
-                <option value="AL">AL</option>
-                <option value="AR">AR</option>
-                <option value="AZ">AZ</option>
-                <option value="CA">CA</option>
-                <option value="CO">CO</option>
-                <option value="CT">CT</option>
-                <option value="DC">DC</option>
-                <option value="DE">DE</option>
-                <option value="FL">FL</option>
-                <option value="GA">GA</option>
-                <option value="HI">HI</option>
-                <option value="IA">IA</option>
-                <option value="ID">ID</option>
-                <option value="IL">IL</option>
-                <option value="IN">IN</option>
-                <option value="KS">KS</option>
-                <option value="KY">KY</option>
-                <option value="LA">LA</option>
-                <option value="MA">MA</option>
-                <option value="MD">MD</option>
-                <option value="ME">ME</option>
-                <option value="MI">MI</option>
-                <option value="MN">MN</option>
-                <option value="MO">MO</option>
-                <option value="MS">MS</option>
-                <option value="MT">MT</option>
-                <option value="NC">NC</option>
-                <option value="ND">ND</option>
-                <option value="NE">NE</option>
-                <option value="NH">NH</option>
-                <option value="NJ">NJ</option>
-                <option value="NM">NM</option>
-                <option value="NV">NV</option>
-                <option value="NY">NY</option>
-                <option value="OH">OH</option>
-                <option value="OK">OK</option>
-                <option value="OR">OR</option>
-                <option value="PA">PA</option>
-                <option value="RI">RI</option>
-                <option value="SC">SC</option>
-                <option value="SD">SD</option>
-                <option value="TN">TN</option>
-                <option value="TX">TX</option>
-                <option value="UT">UT</option>
-                <option value="VA">VA</option>
-                <option value="VT">VT</option>
-                <option value="WA">WA</option>
-                <option value="WI">WI</option>
-                <option value="WV">WV</option>
-                <option value="WY">WY</option>
+                  <option value="AK">AK</option>
+                  <option value="AL">AL</option>
+                  <option value="AR">AR</option>
+                  <option value="AZ">AZ</option>
+                  <option value="CA">CA</option>
+                  <option value="CO">CO</option>
+                  <option value="CT">CT</option>
+                  <option value="DC">DC</option>
+                  <option value="DE">DE</option>
+                  <option value="FL">FL</option>
+                  <option value="GA">GA</option>
+                  <option value="HI">HI</option>
+                  <option value="IA">IA</option>
+                  <option value="ID">ID</option>
+                  <option value="IL">IL</option>
+                  <option value="IN">IN</option>
+                  <option value="KS">KS</option>
+                  <option value="KY">KY</option>
+                  <option value="LA">LA</option>
+                  <option value="MA">MA</option>
+                  <option value="MD">MD</option>
+                  <option value="ME">ME</option>
+                  <option value="MI">MI</option>
+                  <option value="MN">MN</option>
+                  <option value="MO">MO</option>
+                  <option value="MS">MS</option>
+                  <option value="MT">MT</option>
+                  <option value="NC">NC</option>
+                  <option value="ND">ND</option>
+                  <option value="NE">NE</option>
+                  <option value="NH">NH</option>
+                  <option value="NJ">NJ</option>
+                  <option value="NM">NM</option>
+                  <option value="NV">NV</option>
+                  <option value="NY">NY</option>
+                  <option value="OH">OH</option>
+                  <option value="OK">OK</option>
+                  <option value="OR">OR</option>
+                  <option value="PA">PA</option>
+                  <option value="RI">RI</option>
+                  <option value="SC">SC</option>
+                  <option value="SD">SD</option>
+                  <option value="TN">TN</option>
+                  <option value="TX">TX</option>
+                  <option value="UT">UT</option>
+                  <option value="VA">VA</option>
+                  <option value="VT">VT</option>
+                  <option value="WA">WA</option>
+                  <option value="WI">WI</option>
+                  <option value="WV">WV</option>
+                  <option value="WY">WY</option>
                   </select>
                </div>
             </div>
@@ -668,11 +675,11 @@
             />
          <!-- Review and Submit Button -->
          <button
-         type="button"
-         id="reviewBtn"
-         class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-700 transition w-full"
-         >
-         Review and Submit
+            type="button"
+            id="reviewBtn"
+            class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-700 transition w-full"
+            >
+            Review and Submit
          </button>
       </form>
       <!-- Confirmation Dialog -->
@@ -721,6 +728,37 @@
       const coApplicantDetails = document.getElementById("CoApplicantDetails");
       const maritalStatus = document.getElementById("maritalStatus");
       const relationshipToPolicyholder = document.getElementById("relationshipToPolicyholder");
+      const dateOfBirthInput = document.getElementById("dateOfBirth");
+      const ageInput = document.getElementById("age");
+
+      // Function to calculate age from DOB
+      function calculateAge(dobString) {
+         if (!dobString || !isValidDateFormat(dobString)) {
+            ageInput.value = "";
+            return "";
+         }
+         
+         const [month, day, year] = dobString.split("/").map(Number);
+         const birthDate = new Date(year, month - 1, day);
+         
+         // Validate the date (handles invalid dates like Feb 30)
+         if (isNaN(birthDate.getTime())) {
+            ageInput.value = "";
+            return "";
+         }
+         
+         const today = new Date();
+         let age = today.getFullYear() - birthDate.getFullYear();
+         const monthDiff = today.getMonth() - birthDate.getMonth();
+         
+         // Adjust age if birthday hasn't occurred this year
+         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+         }
+         
+         ageInput.value = age.toString();
+         return age.toString();
+      }
 
       // Initialize Pikaday datepickers for all date fields
       const dateFieldIds = ["00NU7000005zuLl", "dateOfBirth", "dateLicensed", "00NU7000007CwPB"];
@@ -743,6 +781,22 @@
          });
          }
       });
+
+      // Auto-calculate age when DOB changes
+      if (dateOfBirthInput) {
+         dateOfBirthInput.addEventListener("input", function() {
+            calculateAge(this.value);
+         });
+         
+         dateOfBirthInput.addEventListener("change", function() {
+            calculateAge(this.value);
+         });
+         
+         // Also listen for Pikaday changes
+         dateOfBirthInput.addEventListener("blur", function() {
+            calculateAge(this.value);
+         });
+      }
 
       // Co-Applicant toggling and enabling/disabling inputs
       function toggleCoApplicant() {
@@ -780,7 +834,8 @@
          { id: "dlCountry", label: "DL Country" },
          { id: "dlState", label: "DL State" },
          { id: "dateLicensed", label: "Date Licensed" },
-         { id: "relationshipToPolicyholder", label: "Relationship to Policyholder" }
+         { id: "relationshipToPolicyholder", label: "Relationship to Policyholder" },
+         { id: "age", label: "Age", type: "number" } // Include age in validation
       ];
 
       // Additional dynamic co-applicant fields (validate only if co-applicant visible)
@@ -850,6 +905,10 @@
          let isMissing = false;
          if (field.type === "email") {
             if (!val || !input.checkValidity()) isMissing = true;
+         } else if (field.type === "number") {
+            // Age field validation - only check if DOB was provided
+            const dobVal = dateOfBirthInput ? dateOfBirthInput.value.trim() : "";
+            if (dobVal && !val) isMissing = true;
          } else if (
             (field.label.includes("Date") || field.label.includes("Birth")) && val
          ) {
