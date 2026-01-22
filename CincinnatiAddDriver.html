@@ -1,1 +1,735 @@
-test
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Cincinnati Form</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <link
+         rel="stylesheet"
+         href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css"
+         />
+      <style>
+         .hidden {
+         display: none;
+         }
+         .star {
+         color: #ef4444;
+         margin-left: 2px;
+         }
+         .modal-bg {
+         background: rgba(0, 0, 0, 0.4);
+         }
+      </style>
+   </head>
+   <body class="bg-gray-100 flex items-center justify-center min-h-screen p-6">                   
+      <form
+         id="mainForm"
+         action="https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DU7000006EuID"
+         method="POST"
+         class="bg-white p-8 rounded-2xl shadow-md w-full max-w-xl space-y-8 relative"
+         autocomplete="off"
+         >
+         <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">
+         Add Driver Cincinnati Form
+         </h2>
+         <div class="bg-gray-50 border rounded-xl p-6 shadow-inner">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">Policy Changes</h3>
+            <!-- Email -->
+            <div class="mb-3">
+               <label for="email" class="block text-sm font-medium text-gray-700">
+               Email<span class="star">*</span>
+               </label>
+               <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  autocomplete="off"
+                  />
+            </div>
+            <div>
+               <label class="block text-sm font-medium text-gray-700 mb-2">Select the Request Type:<span class="star">*</span></label>
+               <!-- Radios: Keep for UI, but add hidden input for Salesforce as checkbox -->
+               <div class="flex space-x-4 mb-2">
+                  <label class="inline-flex items-center ">
+                  <input type="radio" id="00NU7000006IOzh" name="Is_this_a_quote_or_a_change_request__c" value="Quote"  class="mr-2" />Quote
+                  </label>
+                  <label class="inline-flex items-center">
+                  <input type="radio" id="00NU7000006IOzh" name="Is_this_a_quote_or_a_change_request__c" value="Endorsement" class="mr-2" />Endorsement
+                  </label>
+               </div>
+               <!-- Hidden Salesforce fields for checkbox mapping -->
+               <input type="hidden" name="Is_this_a_quote_or_a_change_request__c" id="sfQuote" value="false" />
+               <input type="hidden" name="Is_this_a_quote_or_a_change_request__c" id="sfEndorsement" value="false" />
+               <div id="quotePolicyError" class="error-message hidden ">Please select an option</div>
+            </div>
+            <!-- Policy Number -->
+            <div class="mb-3">
+               <label
+                  for="00NU7000005zuX3"
+                  class="block text-sm font-medium text-gray-700"
+                  >
+                  Policy Number<span class="star">*</span>
+               </label>
+               <input
+                  type="text"
+                  id="00NU7000005zuX3"
+                  name="Policy_Number__c"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+                  autocomplete="off"
+                  />
+            </div>
+            <!-- Effective Date -->
+            <div class="mb-3">
+               <label
+                  for="00NU7000005zuLl"
+                  class="block text-sm font-medium text-gray-700"
+                  >
+                  Effective Date<span class="star">*</span>
+               </label>
+               <input
+                  type="text"
+                  id="00NU7000005zuLl"
+                  name="Date__c"
+                  placeholder="MM/DD/YYYY"
+                  maxlength="10"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  autocomplete="off"
+                  />
+            </div>
+         </div>
+         <div class="bg-gray-50 border rounded-xl p-6 shadow-inner">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">Driver Details</h3>
+            
+            <!-- Row 1: First Name, Middle Name, Last Name -->
+            <div class="grid grid-cols-3 gap-4 mb-4">
+               <div>
+                  <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">
+                  First Name<span class="star">*</span>
+                  </label>
+                  <input
+                     type="text"
+                     id="firstName"
+                     name="First_Name__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     />
+               </div>
+               <div>
+                  <label for="middleName" class="block text-sm font-medium text-gray-700 mb-1">
+                  Middle Name
+                  </label>
+                  <input
+                     type="text"
+                     id="middleName"
+                     name="Middle_Name__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     />
+               </div>
+               <div>
+                  <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">
+                  Last Name<span class="star">*</span>
+                  </label>
+                  <input
+                     type="text"
+                     id="lastName"
+                     name="Last_Name__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     />
+               </div>
+            </div>
+
+            <!-- Row 2: Gender, Marital Status -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+               <div>
+                  <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">
+                  Gender<span class="star">*</span>
+                  </label>
+                  <select
+                     id="gender"
+                     name="Gender_Cincinnati__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     >
+                     <option value="">--Select--</option>
+                     <option value="Male">Male</option>
+                     <option value="Female">Female</option>
+                     <option value="Non-binary/Non-disclosed">Non-binary/Non-disclosed</option>
+                  </select>
+               </div>
+               <div>
+                  <label for="maritalStatus" class="block text-sm font-medium text-gray-700 mb-1">
+                  Marital Status<span class="star">*</span>
+                  </label>
+                  <select
+                     id="maritalStatus"
+                     name="Marital_Status_Central__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     >
+                     <option value="">--Select--</option>
+                     <option value="Divorced">Divorced</option>
+                     <option value="Married">Married</option>
+                     <option value="Single">Single</option>
+                     <option value="Widowed">Widowed</option>
+                  </select>
+               </div>
+            </div>
+
+            <!-- Row 3: Date of Birth, DL Number -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+               <div>
+                  <label for="dateOfBirth" class="block text-sm font-medium text-gray-700 mb-1">
+                  Date of Birth<span class="star">*</span>
+                  </label>
+                  <input
+                     type="text"
+                     id="dateOfBirth"
+                     name="Date_of_Birth__c"
+                     placeholder="MM/DD/YYYY"
+                     maxlength="10"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     />
+               </div>
+               <div>
+                  <label for="dlNumber" class="block text-sm font-medium text-gray-700 mb-1">
+                  DL Number<span class="star">*</span>
+                  </label>
+                  <input
+                     type="text"
+                     id="dlNumber"
+                     name="Drivers_license_number__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     />
+               </div>
+            </div>
+
+            <!-- Row 4: DL Country, DL State -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+               <div>
+                  <label for="dlCountry" class="block text-sm font-medium text-gray-700 mb-1">
+                  DL Country<span class="star">*</span>
+                  </label>
+                  <select
+                     id="dlCountry"
+                     name="DL_Country__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     >
+                     <option value="United States of America" selected>
+              United States of America
+            </option>
+            <option value="Canada">Canada</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Other Alien Countries">Other Alien Countries</option>
+            <option value="American Samoa">American Samoa</option>
+            <option value="Armed Forces Americas">Armed Forces Americas</option>
+            <option value="Armed Forces Other">Armed Forces Other</option>
+            <option value="Armed Forces Pacific">Armed Forces Pacific</option>
+            <option value="District of Columbia">District of Columbia</option>
+            <option value="Federated States of Micronesia">
+              Federated States of Micronesia
+            </option>
+            <option value="Guam">Guam</option>
+            <option value="Guantanamo Bay (US Naval Base)">
+              Guantanamo Bay (US Naval Base)
+            </option>
+            <option value="Marshall Islands">Marshall Islands</option>
+            <option value="Northern Mariana Islands">
+              Northern Mariana Islands
+            </option>
+            <option value="Palau">Palau</option>
+            <option value="Puerto Rico">Puerto Rico</option>
+            <option value="US Virgin Islands">US Virgin Islands</option>
+                  </select>
+               </div>
+               <div>
+                  <label for="dlState" class="block text-sm font-medium text-gray-700 mb-1">
+                  DL State<span class="star">*</span>
+                  </label>
+                  <select
+                     id="dlState"
+                     name="License_State_Cincinnati__c"
+                     class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     >
+                    <option value="">--Select--</option>
+                <option value="AK">AK</option>
+                <option value="AL">AL</option>
+                <option value="AR">AR</option>
+                <option value="AZ">AZ</option>
+                <option value="CA">CA</option>
+                <option value="CO">CO</option>
+                <option value="CT">CT</option>
+                <option value="DC">DC</option>
+                <option value="DE">DE</option>
+                <option value="FL">FL</option>
+                <option value="GA">GA</option>
+                <option value="HI">HI</option>
+                <option value="IA">IA</option>
+                <option value="ID">ID</option>
+                <option value="IL">IL</option>
+                <option value="IN">IN</option>
+                <option value="KS">KS</option>
+                <option value="KY">KY</option>
+                <option value="LA">LA</option>
+                <option value="MA">MA</option>
+                <option value="MD">MD</option>
+                <option value="ME">ME</option>
+                <option value="MI">MI</option>
+                <option value="MN">MN</option>
+                <option value="MO">MO</option>
+                <option value="MS">MS</option>
+                <option value="MT">MT</option>
+                <option value="NC">NC</option>
+                <option value="ND">ND</option>
+                <option value="NE">NE</option>
+                <option value="NH">NH</option>
+                <option value="NJ">NJ</option>
+                <option value="NM">NM</option>
+                <option value="NV">NV</option>
+                <option value="NY">NY</option>
+                <option value="OH">OH</option>
+                <option value="OK">OK</option>
+                <option value="OR">OR</option>
+                <option value="PA">PA</option>
+                <option value="RI">RI</option>
+                <option value="SC">SC</option>
+                <option value="SD">SD</option>
+                <option value="TN">TN</option>
+                <option value="TX">TX</option>
+                <option value="UT">UT</option>
+                <option value="VA">VA</option>
+                <option value="VT">VT</option>
+                <option value="WA">WA</option>
+                <option value="WI">WI</option>
+                <option value="WV">WV</option>
+                <option value="WY">WY</option>
+                  </select>
+               </div>
+            </div>
+
+            <!-- Row 5: Date Licensed -->
+            <div class="mb-4">
+               <label for="dateLicensed" class="block text-sm font-medium text-gray-700 mb-1">
+               Date Licensed<span class="star">*</span>
+               </label>
+               <input
+                  type="text"
+                  id="dateLicensed"
+                  name="Date_Licensed__c"
+                  placeholder="MM/DD/YYYY"
+                  maxlength="10"
+                  class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  autocomplete="off"
+                  />
+            </div>
+
+            <!-- Row 6: Relationship to Policyholder -->
+            <div class="mb-3">
+               <label for="relationshipToPolicyholder" class="block text-sm font-medium text-gray-700">
+               Relationship to Policyholder<span class="star">*</span>
+               </label>
+               <select
+                  id="relationshipToPolicyholder"
+                  name="Relationship_to_Policyholder__c"
+                  class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  autocomplete="off"
+                  >
+                  <option value="">--Select--</option>
+                  <option value="Brother/Sister of Policyholder">Brother/Sister of Policyholder</option>
+                  <option value="Child of Policyholder">Child of Policyholder</option>
+                  <option value="Employee of Policyholder">Employee of Policyholder</option>
+                  <option value="Parent/Guardian of Policyholder">Parent/Guardian of Policyholder</option>
+                  <option value="Policyholder #2">Policyholder #2</option>
+                  <option value="No Vehicle Operator Involved">No Vehicle Operator Involved</option>
+                  <option value="Other Relation to Policyholder">Other Relation to Policyholder</option>
+                  <option value="Policyholder">Policyholder</option>
+                  <option value="Spouse of Policyholder">Spouse of Policyholder</option>
+                  <option value="Relationship Not Known">Relationship Not Known</option>
+                  <option value="Not Related to Policyholder">Not Related to Policyholder</option>
+               </select>
+            </div>
+         </div>
+         <div class="bg-gray-50 border rounded-xl p-6 shadow-inner hidden" id="CoApplicantDetails">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">Co-Applicant Details</h3>
+            <div class="flex gap-4 mb-3">
+               <!-- Co-Applicant First Name -->
+               <div class="w-1/2">
+                  <label for="00NU7000007CwKL" class="block text-sm font-medium text-gray-700">
+                  Co-Applicant First Name<span class="star">*</span>
+                  </label>
+                  <input
+                     type="text"
+                     id="00NU7000007CwKL"
+                     name="Co_Applicant_First_Name__c"
+                     class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     />
+               </div>
+               <!-- Co-Applicant Last Name -->
+               <div class="w-1/2">
+                  <label for="00NU7000007CwLx" class="block text-sm font-medium text-gray-700">
+                  Co-Applicant Last Name<span class="star">*</span>
+                  </label>
+                  <input
+                     type="text"
+                     id="00NU7000007CwLx"
+                     name="Co_Applicant_Last_Name__c"
+                     class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                     autocomplete="off"
+                     />
+               </div>
+            </div>
+            <div class="mb-3">
+               <label for="00NU7000007CwNZ" class="block text-sm font-medium text-gray-700">
+               Reason for adding co-applicant<span class="star">*</span>
+               </label>
+               <textarea
+                  type="Text"
+                  id="00NU7000007CwNZ"
+                  name="Reason_for_adding_co_applicant__c"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  autocomplete="off"
+                  ></textarea>
+            </div>
+            <div class="mb-3">
+               <label
+                  for="00NU7000007CwPB"
+                  class="block text-sm font-medium text-gray-700"
+                  >
+                  Co-Applicant Date of Birth<span class="star">*</span>
+               </label>
+               <input
+                  type="Text"
+                  id="00NU7000007CwPB"
+                  name="Co_Applicant_Date_of_Birth__c"
+                  maxlength="10"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  autocomplete="off"
+                  placeholder="MM/DD/YYYY"
+                  />
+            </div>
+            <div class="mb-3">
+               <label for="00NU7000007CwYr" class="block text-sm font-medium text-gray-700">
+               Co-Applicant Occupation<span class="star">*</span>
+               </label>
+               <input
+                  type="Text"
+                  id="00NU7000007CwYr"
+                  name="Co_Applicant_Occupation__c"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  autocomplete="off"
+                  />
+            </div>
+            <div class="mb-3">
+               <label for="00NU7000007CwXF" class="block text-sm font-medium text-gray-700">
+               Co-Applicant Marital Status<span class="star">*</span>
+               </label>
+               <select
+                  id="00NU7000007CwXF"
+                  name="Co_Applicant_Marital_Status__c"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+                  autocomplete="off"
+                  >
+                  <option value="">--None--</option>
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                  <option value="Divorced">Divorced</option>
+                  <option value="Widowed">Widowed</option>
+                  <option value="Parted">Parted</option>
+                  <option value="Unknown">Unknown</option>
+               </select>
+            </div>
+         </div>
+         <!-- Policy Action -->
+         <input
+            type="hidden"
+            id="AddDriver"
+            name="Policy_Action__c"
+            value="Add Driver"
+            />
+         <!-- Hidden Salesforce fields -->
+         <input type=hidden name="oid" value="00DU7000006EuID">
+         <input
+            type="hidden"
+            name="first_name"
+            value="Cincinnati Add Driver"
+            />
+         <input type="hidden" name="last_name" value=" Demo 4" />
+         <input type="hidden" name="status" value="New" />
+         <input type="hidden" name="phone" value="2843683729" />
+         <input type="hidden" name="lead_source" value="Web Form" />
+         <input type="hidden" name="retURL" value="https://bennettandporter.com/" />
+         <input type="hidden" name="delete_Action_Form__c" value="1" />
+         <input type="hidden" id="formDataJson" name="Form_Captured_Data__c" value="" />
+         <input type="hidden" id="formMissingData" name="Form_Missing_Data__c" value="" />
+         <input type="hidden" name="Carrier__c" value ="Cincinnati">
+         <input
+            type="hidden"
+            name="company"
+            value="Caelius Test Cincinnati Add Driver Form"
+            />
+         <input
+            type="hidden"
+            name="Debug_Notes__c"
+            value="Cincinnati Test: 2025-06-27 07:21AM"
+            />
+         <!-- Review and Submit Button -->
+         <button
+         type="button"
+         id="reviewBtn"
+         class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-700 transition w-full"
+         >
+         Review and Submit
+         </button>
+      </form>
+      <!-- Confirmation Dialog -->
+      <div
+         id="dialog"
+         class="hidden fixed inset-0 flex items-center justify-center modal-bg z-50"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="dialogTitle"
+         >
+         <div
+            class="bg-white rounded-lg p-6 max-w-md w-full shadow-lg text-gray-800"
+            >
+            <h3 id="dialogTitle" class="text-lg font-semibold mb-4"></h3>
+            <ul id="missingFieldsList" class="mb-4 text-red-600 text-sm"></ul>
+            <div class="flex justify-end space-x-3" id="dialogButtons">
+               <button
+                  id="proceedBtn"
+                  class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 font-medium"
+                  >
+                  Proceed to End Request
+               </button>
+               <button
+                  id="editBtn"
+                  class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 font-medium"
+                  >
+                  Edit
+               </button>
+            </div>
+         </div>
+      </div>
+      <!-- JS -->
+      <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+      <script>
+      document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("mainForm");
+      const dialog = document.getElementById("dialog");
+      const dialogTitle = document.getElementById("dialogTitle");
+      const missingFieldsList = document.getElementById("missingFieldsList");
+      const proceedBtn = document.getElementById("proceedBtn");
+      const editBtn = document.getElementById("editBtn");
+      const formDataJsonInput = document.getElementById("formDataJson");
+      const reviewBtn = document.getElementById("reviewBtn");
+
+      // Co-Applicant and related controls
+      const coApplicantDetails = document.getElementById("CoApplicantDetails");
+      const maritalStatus = document.getElementById("maritalStatus");
+      const relationshipToPolicyholder = document.getElementById("relationshipToPolicyholder");
+
+      // Initialize Pikaday datepickers for all date fields
+      const dateFieldIds = ["00NU7000005zuLl", "dateOfBirth", "dateLicensed", "00NU7000007CwPB"];
+      dateFieldIds.forEach(id => {
+         const el = document.getElementById(id);
+         if (el) {
+         new Pikaday({
+            field: el,
+            format: "MM/DD/YYYY",
+            toString(date) {
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const year = date.getFullYear();
+            return `${month}/${day}/${year}`;
+            },
+            parse(dateString) {
+            const [month, day, year] = dateString.split("/");
+            return new Date(year, month - 1, day);
+            },
+         });
+         }
+      });
+
+      // Co-Applicant toggling and enabling/disabling inputs
+      function toggleCoApplicant() {
+         if (maritalStatus && maritalStatus.value === "Married" && relationshipToPolicyholder && relationshipToPolicyholder.value === "Spouse") {
+         coApplicantDetails.classList.remove("hidden");
+         coApplicantDetails.querySelectorAll("input, select, textarea").forEach(el => {
+            el.disabled = false;
+         });
+         } else {
+         coApplicantDetails.classList.add("hidden");
+         coApplicantDetails.querySelectorAll("input, select, textarea").forEach(el => {
+            el.disabled = true;
+            el.value = "";
+         });
+         }
+      }
+      
+      if (maritalStatus && relationshipToPolicyholder) {
+         maritalStatus.addEventListener("change", toggleCoApplicant);
+         relationshipToPolicyholder.addEventListener("change", toggleCoApplicant);
+         toggleCoApplicant();
+      }
+
+      // Updated validation fields for new structure
+      const fieldData = [
+         { id: "email", label: "Email", type: "email" },
+         { id: "00NU7000005zuX3", label: "Policy Number" },
+         { id: "00NU7000005zuLl", label: "Effective Date" },
+         { id: "firstName", label: "First Name" },
+         { id: "lastName", label: "Last Name" },
+         { id: "gender", label: "Gender" },
+         { id: "maritalStatus", label: "Marital Status" },
+         { id: "dateOfBirth", label: "Date of Birth" },
+         { id: "dlNumber", label: "DL Number" },
+         { id: "dlCountry", label: "DL Country" },
+         { id: "dlState", label: "DL State" },
+         { id: "dateLicensed", label: "Date Licensed" },
+         { id: "relationshipToPolicyholder", label: "Relationship to Policyholder" }
+      ];
+
+      // Additional dynamic co-applicant fields (validate only if co-applicant visible)
+      function getCoApplicantFields() {
+         if (!coApplicantDetails.classList.contains("hidden")) {
+         return [
+            { id: "00NU7000007CwKL", label: "Co-Applicant First Name" },
+            { id: "00NU7000007CwLx", label: "Co-Applicant Last Name" },
+            { id: "00NU7000007CwNZ", label: "Reason for adding co-applicant" },
+            { id: "00NU7000007CwPB", label: "Co-Applicant Date of Birth" },
+            { id: "00NU7000007CwYr", label: "Co-Applicant Occupation" },
+            { id: "00NU7000007CwXF", label: "Co-Applicant Marital Status" }
+         ];
+         }
+         return [];
+      }
+
+      // Helper to validate MM/DD/YYYY format
+      function isValidDateFormat(value) {
+         return /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/.test(value);
+      }
+
+      // Get radio value of Request Type
+      function getRequestType() {
+         const radios = document.querySelectorAll('input[name="Is_this_a_quote_or_a_change_request__c"]');
+         for (const radio of radios) {
+         if (radio.checked) return radio.value;
+         }
+         return "";
+      }
+
+      // Update Salesforce hidden checkbox fields for requestType
+      document.querySelectorAll('input[name="Is_this_a_quote_or_a_change_request__c"]').forEach(radio => {
+         radio.addEventListener('change', function() {
+         document.getElementById("sfQuote").value = this.value === "Quote" ? "true" : "false";
+         document.getElementById("sfEndorsement").value = this.value === "Endorsement" ? "true" : "false";
+         });
+      });
+
+      // Review and Submit button click validation and show dialog
+      reviewBtn.addEventListener("click", function (e) {
+         e.preventDefault();
+
+         const missing = [];
+         const missingData = [];
+         const completedData = [];
+
+         const requestTypeVal = getRequestType();
+         if (!requestTypeVal) {
+         missing.push("Request Type");
+         missingData.push({ field: "Request Type", value: "" });
+         } else {
+         completedData.push({ field: "Request Type", value: requestTypeVal });
+         }
+
+         // Combine driver and co-applicant fields for validation
+         const allFields = fieldData.concat(getCoApplicantFields());
+
+         allFields.forEach(field => {
+         const input = document.getElementById(field.id);
+         if (!input) return;
+
+         if (input.disabled) return; // Skip disabled inputs
+
+         const val = input.value.trim();
+
+         let isMissing = false;
+         if (field.type === "email") {
+            if (!val || !input.checkValidity()) isMissing = true;
+         } else if (
+            (field.label.includes("Date") || field.label.includes("Birth")) && val
+         ) {
+            if (!isValidDateFormat(val)) isMissing = true;
+         } else {
+            if (!val) isMissing = true;
+         }
+
+         if (isMissing) {
+            missing.push(field.label);
+            missingData.push({ field: field.label, value: val || "" });
+         } else {
+            completedData.push({ field: field.label, value: val });
+         }
+         });
+
+         // Prepare captured data string for hidden input
+         const capturedStr = completedData
+         .map(d => `${d.field} = ${d.value}`)
+         .join("\n");
+
+         const missingStr = missingData
+         .map(d => d.field)
+         .join("\n");
+
+         // Set hidden fields
+         formDataJsonInput.value = capturedStr;
+         const formMissingHidden = document.getElementById("formMissingData");
+         if (formMissingHidden) {
+         formMissingHidden.value = missingStr;
+         }
+
+         if (missing.length) {
+         dialogTitle.textContent = "Below Mandatory Fields are missing and the Team will contact you shortly.";
+         missingFieldsList.innerHTML = missing.map(f => `<li>${f}</li>`).join("");
+         } else {
+         dialogTitle.textContent = "All mandatory fields are completed. Ready to submit your request?";
+         missingFieldsList.innerHTML = "";
+         }
+
+         dialog.classList.remove("hidden");
+      });
+
+      // Modal buttons logic
+      editBtn.addEventListener("click", () => {
+         dialog.classList.add("hidden");
+      });
+
+      proceedBtn.addEventListener("click", () => {
+         dialog.classList.add("hidden");
+         form.submit();
+      });
+
+      // Close dialog on outside click and ESC key press
+      window.addEventListener("click", (e) => {
+         if (e.target === dialog) {
+         dialog.classList.add("hidden");
+         }
+      });
+
+      window.addEventListener("keydown", (e) => {
+         if (e.key === "Escape" && !dialog.classList.contains("hidden")) {
+         dialog.classList.add("hidden");
+         }
+      });
+      });
+      </script>
+   </body>
+</html>
