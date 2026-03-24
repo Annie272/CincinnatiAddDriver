@@ -549,97 +549,7 @@
                </select>
             </div>
          </div>
-         <div class="bg-gray-50 border rounded-xl p-6 shadow-inner hidden" id="CoApplicantDetails">
-            <h3 class="text-xl font-semibold mb-4 text-gray-700">Co-Applicant Details</h3>
-            <div class="flex gap-4 mb-3">
-               <!-- Co-Applicant First Name -->
-               <div class="w-1/2">
-                  <label for="00NU7000007CwKL" class="block text-sm font-medium text-gray-700">
-                  Co-Applicant First Name<span class="star">*</span>
-                  </label>
-                  <input
-                     type="text"
-                     id="00NU7000007CwKL"
-                     name="Co_Applicant_First_Name__c"
-                     class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                     autocomplete="off"
-                     />
-               </div>
-               <!-- Co-Applicant Last Name -->
-               <div class="w-1/2">
-                  <label for="00NU7000007CwLx" class="block text-sm font-medium text-gray-700">
-                  Co-Applicant Last Name<span class="star">*</span>
-                  </label>
-                  <input
-                     type="text"
-                     id="00NU7000007CwLx"
-                     name="Co_Applicant_Last_Name__c"
-                     class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                     autocomplete="off"
-                     />
-               </div>
-            </div>
-            <div class="mb-3">
-               <label for="00NU7000007CwNZ" class="block text-sm font-medium text-gray-700">
-               Reason for adding co-applicant<span class="star">*</span>
-               </label>
-               <textarea
-                  type="Text"
-                  id="00NU7000007CwNZ"
-                  name="Reason_for_adding_co_applicant__c"
-                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  autocomplete="off"
-                  ></textarea>
-            </div>
-            <div class="mb-3">
-               <label
-                  for="00NU7000007CwPB"
-                  class="block text-sm font-medium text-gray-700"
-                  >
-                  Co-Applicant Date of Birth<span class="star">*</span>
-               </label>
-               <input
-                  type="Text"
-                  id="00NU7000007CwPB"
-                  name="Co_Applicant_Date_of_Birth__c"
-                  maxlength="10"
-                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  autocomplete="off"
-                  placeholder="MM/DD/YYYY"
-                  />
-            </div>
-            <div class="mb-3">
-               <label for="00NU7000007CwYr" class="block text-sm font-medium text-gray-700">
-               Co-Applicant Occupation<span class="star">*</span>
-               </label>
-               <input
-                  type="Text"
-                  id="00NU7000007CwYr"
-                  name="Co_Applicant_Occupation__c"
-                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  autocomplete="off"
-                  />
-            </div>
-            <div class="mb-3">
-               <label for="00NU7000007CwXF" class="block text-sm font-medium text-gray-700">
-               Co-Applicant Marital Status<span class="star">*</span>
-               </label>
-               <select
-                  id="00NU7000007CwXF"
-                  name="Co_Applicant_Marital_Status__c"
-                  class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
-                  autocomplete="off"
-                  >
-                  <option value="">--None--</option>
-                  <option value="Single">Single</option>
-                  <option value="Married">Married</option>
-                  <option value="Divorced">Divorced</option>
-                  <option value="Widowed">Widowed</option>
-                  <option value="Parted">Parted</option>
-                  <option value="Unknown">Unknown</option>
-               </select>
-            </div>
-         </div>
+         
          <!-- Policy Action -->
          <input
             type="hidden"
@@ -725,7 +635,6 @@
       const reviewBtn = document.getElementById("reviewBtn");
 
       // Co-Applicant and related controls
-      const coApplicantDetails = document.getElementById("CoApplicantDetails");
       const maritalStatus = document.getElementById("maritalStatus");
       const relationshipToPolicyholder = document.getElementById("relationshipToPolicyholder");
       const dateOfBirthInput = document.getElementById("dateOfBirth");
@@ -799,26 +708,8 @@
       }
 
       // Co-Applicant toggling and enabling/disabling inputs
-      function toggleCoApplicant() {
-         if (maritalStatus && maritalStatus.value === "Married" && relationshipToPolicyholder && relationshipToPolicyholder.value === "Spouse") {
-         coApplicantDetails.classList.remove("hidden");
-         coApplicantDetails.querySelectorAll("input, select, textarea").forEach(el => {
-            el.disabled = false;
-         });
-         } else {
-         coApplicantDetails.classList.add("hidden");
-         coApplicantDetails.querySelectorAll("input, select, textarea").forEach(el => {
-            el.disabled = true;
-            el.value = "";
-         });
-         }
-      }
-      
-      if (maritalStatus && relationshipToPolicyholder) {
-         maritalStatus.addEventListener("change", toggleCoApplicant);
-         relationshipToPolicyholder.addEventListener("change", toggleCoApplicant);
-         toggleCoApplicant();
-      }
+     
+     
 
       // Updated validation fields for new structure
       const fieldData = [
@@ -839,20 +730,8 @@
       ];
 
       // Additional dynamic co-applicant fields (validate only if co-applicant visible)
-      function getCoApplicantFields() {
-         if (!coApplicantDetails.classList.contains("hidden")) {
-         return [
-            { id: "00NU7000007CwKL", label: "Co-Applicant First Name" },
-            { id: "00NU7000007CwLx", label: "Co-Applicant Last Name" },
-            { id: "00NU7000007CwNZ", label: "Reason for adding co-applicant" },
-            { id: "00NU7000007CwPB", label: "Co-Applicant Date of Birth" },
-            { id: "00NU7000007CwYr", label: "Co-Applicant Occupation" },
-            { id: "00NU7000007CwXF", label: "Co-Applicant Marital Status" }
-         ];
-         }
-         return [];
-      }
-
+      
+const allFields = fieldData;
       // Helper to validate MM/DD/YYYY format
       function isValidDateFormat(value) {
          return /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/.test(value);
@@ -892,7 +771,6 @@
          }
 
          // Combine driver and co-applicant fields for validation
-         const allFields = fieldData.concat(getCoApplicantFields());
 
          allFields.forEach(field => {
          const input = document.getElementById(field.id);
