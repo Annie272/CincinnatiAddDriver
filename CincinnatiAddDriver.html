@@ -825,7 +825,7 @@ const allFields = fieldData;
          // Build All_Form_Data__c JSON
 const allFormData = {
    Email: document.getElementById("email")?.value || "",
-   Is_this_a_quote_or_a_change_request: getRequestType() === "Quote" ? "Y" : "N",
+Is_this_a_quote_or_a_change_request: getRequestType(),
    Policy_Number: document.getElementById("00NU7000005zuX3")?.value || "",
    Effective_Date: formatDateToISO(document.getElementById("00NU7000005zuLl")?.value),
    
